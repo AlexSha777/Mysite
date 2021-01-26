@@ -1,0 +1,80 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>MONEY MOVE</h1>
+
+<div >
+
+  <h1><strong>INCOME</strong></h1>
+  <p>Введение нового источника дохода</p>
+  
+  <p>{%if errors %} {{errors}} {% endif %}</p>  
+  <form id="add_source" action="" method="post">
+    
+    {% csrf_token %}
+    
+    <table class="table_income">
+      <tr>
+        <td> <label for="first_level_source">Основной раздел</label><input type="text" id="fname" name="first_level_source"></td>
+      </tr>
+      
+      <tr id="solidbottom">
+        <td>{% for first in first_level %}
+        
+            <button id="but3" value="{{first}}" type="button" class="source" onclick="myFunction(value)"> {{first}} </button>
+            
+        
+          {% endfor %}
+        </td>
+      </tr>
+
+      <tr>
+        <td><label for="second_level_source">Детализация</label><input type="text" id="lname" name="second_level_source"></td>
+        
+      </tr>
+     
+      <tr id="solidbottom">
+        <td>{% for second in second_level %}
+            
+            <button id="but4" value="{{second}}" type="button" class="source" onclick="myFunction_0(value)"> {{second}} </button>
+        
+          {% endfor %}
+        </td>
+      </tr>
+
+    </table>  
+      
+
+    <input type="submit" class= "submitBtn" value="Submit">
+  
+  </form>
+
+<script>
+  function myFunction(value){
+    var inner = value;
+    document.getElementById("fname").value = inner;
+    }
+
+  function myFunction_0(value){
+    var inner1 = value;
+    document.getElementById("lname").value = inner1;
+    }
+
+  </script>
+
+
+</div>
+
+<div class="common">
+  <h4>Общая информация о <br/><strong>доходных операциях</strong></h4>
+
+    
+      <li><strong>Количество операций доходных:</strong> {{ num_operations }}</li>
+        <ul>
+    	  <li><strong>из них за день:</strong> {{ num_operations_today }} </li>
+        </ul>
+  
+    
+    </ul>
+</div>
+{% endblock %}

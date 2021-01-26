@@ -1,0 +1,38 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>MONEY MOVE</h1>
+
+<div >
+
+  <h1><strong>CASH</strong></h1>
+  <h4> Учет расхождения в учтенных и наличествующих имеющихся средствах</h4>
+  
+  <p>Во время проверки имеющихся средств- {{cash_kind_analise}} на {{date_today}} выявлено:</p>
+
+  {% if cash_checking_result %}
+
+    <table class="table_cash" style="background-color: #ffbfbf;">
+        <th> Вид имеющихся средств </th>
+        <th> Фактическая сумма </th>
+        <th> Учтенная в программе сумма </th>
+        <th> Расхождение </th>
+      <tr>
+        <td> {{ cash_kind_analise }} </td>
+        <td> {{ cash_fact }} </td>
+        <td> {{ cash_to_check_sum }} </td>
+        <td> {{ cash_checking_result }} </td>
+      </tr>
+
+    <p>Расхождение внесено, как имеющиеся средства соответствующего вида с пометкой в комментарии</p>
+  
+  {% else %}
+    <h3> Не выявлено расхождений </h3>
+  {% endif %}
+
+  <form action="{% url 'cash' %}" method="get">
+    <input style="width: 100px; background-color: #ebe65b;" type="submit" class="submitBtn" value="Back">
+  </form>
+
+</div>
+{% endblock %}

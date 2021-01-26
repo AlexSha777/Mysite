@@ -1,0 +1,175 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="main_checkbox" style="width: 170px; float: right; font-size: 9px; display: none;">
+  <label for="main_checkbox">Инициализация приложения</label>
+  <input type="checkbox" name="main_checkbox" id="main_checkbox">
+</div>
+<h1>MONEY MOVE</h1>
+<div >
+
+  <h1><strong>CASH</strong></h1>
+  <p><h4> Проверка имеющихся средств </h4></p>
+  
+    
+  <form id="cash" action="" method="post">
+    {% csrf_token %}
+      
+      {% if cash_on_today %}
+        <p>Введенные наличные средства</p>
+        <table class="entered_cash">
+          <tr>
+            <th>Вид</th>
+            <th>Сумма</th>
+            
+          </tr>
+        {% for cash in cash_on_today %}
+          <tr>
+            <td> {{cash.0}} </td>
+            <td> {{cash.1}} </td>
+            
+          </tr>
+        {% endfor %}
+        </table> 
+      {% else %}
+          <p>Ещё не введены имеющиеся наличные средства</p>
+      {% endif %}
+
+
+      {% if cash_kind_objects %}
+        
+          <p>Список введенных видов имеющихся средств</p>
+
+          {% for kind in cash_kind_objects %}
+            <button value="{{kind.id}}" type="button" id="but2" onclick="myFunction(value);"> {{kind}} </button>
+          {% endfor %}
+            
+      {% else %}
+          <p>Нет видов имеющихся средств</p>
+      {% endif %}
+        
+      </tr>
+
+    <table class="table_cash">
+      
+      <tr id="purpose" class="main_checkbox" style="display: none;" >
+        <td class="label_my"> {{ form.purpose.label }} </td>
+        <td class="enter_area"> {{ form.purpose }} </td>
+      </tr>
+      
+      <tr>
+        <td class="label_my"> {{ form.date_field.label }} </td>
+        <td class="enter_area"> {{ form.date_field }} </td>
+      </tr>
+      
+      {%if form.date_field.errors %}
+          <tr>
+            <td> {{form.date_field.errors}} </td>
+          </tr>
+      {% endif %} 
+      
+      <tr>
+        <td class="label_my"> {{ form.cash_kind.label }} </td>
+        <td class="enter_area" id="cash_kind"> {{ form.cash_kind }} <a id="myref" href="{% url 'add_new_cashkind' %}"> Добавить новый вид имеющихся средств</a></td>
+      </tr>
+      
+      {%if form.cash_kind.errors %}
+          <tr>
+            <td> {{form.cash_kind.errors}} </td>
+          </tr>
+      {% endif %}
+
+
+      <tr>
+        <td class="label_my"> {{ form.ammount.label }} </td>
+        <td class="enter_area"> {{ form.ammount }} {{ form.ammount.help_text }} </td>
+      </tr>
+      
+      
+      {%if form.ammount.errors %}
+          <tr>
+            <td> {{form.ammount.errors}} </td>
+          </tr>
+      {% endif %}
+
+      <tr>
+        <td class="label_my"> {{ form.comment.label }} </td>
+        <td class="enter_area"> {{ form.comment }} </td>
+      </tr>
+
+      {%if form.comment.errors %}
+          <tr>
+            <td> {{form.comment.errors}} </td>
+          </tr>
+      {% endif %}
+
+
+
+    
+    </table>
+    <input type="submit" class= "submitBtn" value="Submit">
+  </form>
+
+<script>
+  function myFunction(value){
+    var inner = value;
+    console.log(value);
+    var to_add = document.createTextNode(inner);
+
+    var cash_kind_element = document.getElementById("id_cash_kind");
+    cash_kind_element.value = inner
+    }
+  
+  var checkbox = document.getElementById("id_purpose");
+  var checkbox_visible = document.getElementById("main_checkbox")
+
+  if ("onpropertychange" in checkbox) {
+    // старый IE
+    checkbox.onpropertychange = function() {
+      // проверим имя изменённого свойства
+      if (event.propertyName == "checked") {
+        alert( checkbox.checked );
+      }
+    };
+  } else {
+    // остальные браузеры
+    checkbox_visible.onchange = function() {
+      alert(checkbox_visible.checked);
+      if (checkbox_visible.checked) {
+        checkbox.checked = true;
+        let color_change = document.querySelectorAll('.main_checkbox');
+        console.log(color_change);
+        color_change.forEach(function(item){
+            item.style.backgroundColor = "red";
+          }); 
+        
+      } else {
+          checkbox.checked = false;
+          let color_change = document.querySelectorAll('.main_checkbox');
+          console.log(color_change);
+          color_change.forEach(function(item){
+            item.style.backgroundColor = "white";
+          }); 
+             }
+    };
+  }
+</script>
+
+</div>
+
+<div class="common">
+  <h4>Общая информация о <br/><strong>имеющихся средствах</strong></h4>
+
+    <ul>
+      <li><strong>Количество введений имеющихся средств:</strong> {{ num_operations_cash }}</li>
+        <ul>
+    	    <li>из них за день: {{ num_operations_cash_today }} </li>
+        </ul>
+      <li><strong>Виды имеющихся средств:</strong> {{ num_cash_kind }}</li></li>
+
+        
+    </ul>
+    
+    
+</div>
+{% endblock %}

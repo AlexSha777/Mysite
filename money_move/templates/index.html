@@ -1,0 +1,59 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>MONEY MOVE Home</h1>
+
+  <p>Welcome to <em> Money move application</em></p>
+<div>
+  <div style="background-color: #d9f8fc; border-radius: 5px; text-align: center;"> Доходы за последнюю неделю: {{week_income_ammount}}<br> 
+  Расходы за последнюю неделю: {{week_spendings_ammount}} <br>
+  <p style="color: #c27c91;">Баланс: {{week_balance}}</p></div> 
+  <div style="background-color: #e0e0e0; border-radius: 5px; text-align: center;"> Доходы за последний месяц: {{month_income_ammount}} <br> 
+  Расходы за последний месяц:{{month_spendings_ammount}} <br>
+  <p style="color: #c27c91;">Баланс: {{month_balance}}</p></div>
+</div>
+
+
+<div style="width: 200px">
+
+<form action="{% url 'income' %}" method="get">
+  <input style="width: 200px" type="submit" class="submitBtn" value="Ввести доходную операцию">
+</form>
+
+</div>
+
+<div style="width: 200px">
+
+<form action="{% url 'spendings' %}" method="get">
+  <input style="width: 200px" type="submit" class="submitBtn" value="Ввести расходную операцию">
+</form>
+
+<form action="{% url 'cash' %}" method="get">
+  <input style="width: 200px" type="submit" class="submitBtn" value="Ввести имеющиеся средства">
+</form>
+
+</div>
+
+<div class="common">
+  <h4>Общая информация</h4>
+
+    <p>The application has the following record counts:</p>
+      
+      <li><strong>Количество операций доходных:</strong> {{ num_operations_income }}</li>
+        <ul>
+    	  <li><strong>из них за день:</strong> {{ num_operations_income_today }} </li>
+        </ul>
+      
+      
+      <li><strong>Количество операций расходных:</strong> {{ num_operations_spendings }}</li>
+        <ul>
+    	  <li><strong>из них за день:</strong> {{ num_operations_spendings_today }} </li>
+        </ul>
+      
+
+      <li><strong>Источники дохода:</strong> {{ num_source }}</li>
+      <li><strong>Источники расходов:</strong> {{ num_kinds }}</li>
+    
+    </ul>
+</div>
+{% endblock %}

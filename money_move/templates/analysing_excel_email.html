@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h5>MONEY MOVE Analysing</h5>
+<h4>Анализ движения денежных средств</h4>
+
+<p>Отправлен файл excel с анализом всех операций за период с {{date_begin}} по {{date_end}} на почту {{email}}  </p>
+
+
+<form action="{% url 'analysing' %}" method="get">
+  <input style="width: 100px; background-color: #ebe65b;" type="submit" class="submitBtn" value="Back">
+</form>
+
+<form action="{% url 'index' %}" method="get">
+  <input style="width: 100px; background-color: #ebe65b;" type="submit" class="submitBtn" value="Home">
+</form>
+                        
+
+{% endblock %}

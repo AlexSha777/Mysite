@@ -1,0 +1,129 @@
+.navbar {
+    border: 1px solid #333;
+    height: 110px;
+    min-width: 361px;
+    padding: 5px;
+    margin: 10px 10px 10px 10px;
+}
+
+.mymain {
+    position: relative;
+    margin: 10px 10px 10px 10px;
+    margin-top: 10px;
+    padding: 5px;
+    border: 1px solid #333;
+    height: 100%;
+    width: auto;
+    min-height: 700px;
+}
+
+.common {
+    position: relative;
+    border: 1px solid #333;
+    width: 100%;
+    height: auto;
+    margin: 4px 2px; 
+    background:#9CD7;
+    text-align: left;
+    padding: 2px;
+}
+
+.submitBtn {
+    width: 30%;
+    height: 30px;
+    margin: 4px 2px; 
+    background:#9CD7; 
+    border: none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+}
+
+#but1, #but2, #but3, #but4 {
+    /*width: 30%;*/
+    height: auto;
+    margin: 4px 2px; 
+    background:#ffe4e1; 
+    border: none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+}
+
+#navbarleft {
+    width: 200px;
+    float: left;
+}
+
+
+#navbarright {
+    float: right;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%
+}
+
+tr, td {
+    padding: 2px;
+    height: 40px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table.entered_cash, table.analysing_result {
+    background-color: #90ee90;
+}
+
+#solidbottom {
+    border-bottom: 3px solid #ffe4e1;
+    
+}
+
+td.label_my {
+    color: #000;
+    height: 40px;
+    min-width: 70px;
+    padding: 8px;
+    text-align: left;
+    
+}
+
+td.enter_area {
+    height: 40px;
+    width: 200px;
+}
+
+textarea, #id_ammount, #id_source, #kind, #id_kind, #id_cash_kind, #id_date_field, #id_first_level_kind, #id_cash_kind_spending, #id_cash_kind_income, #id_second_level_kind, #id_comment, #myref, #fname, #lname {
+    width: 200px;
+    height: 30px;;
+    padding: 2px 2px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+}
+
+label {
+    padding: 5px;
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+    color: #000;
+}
+
+#myref {
+    margin-top: 2px;
+    border-radius: 5px;
+    background-color: #9CD7;
+    color: black;
+    padding: 2px 2px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}

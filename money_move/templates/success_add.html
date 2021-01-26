@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>MONEY MOVE <strong>INCOME</strong></h1>
+
+  <p>Введена доходная операция</p>
+
+<div >
+<li><strong>Источники дохода:</strong> </li>
+<h1>SUCCESS</h1>
+<h4>Добавлена запись в базу данных</h4>
+</div>
+
+<form action="{% url 'income' %}" method="get">
+  <input style="width: 100px; background-color: #ebe65b;" type="submit" class="submitBtn" value="Back">
+</form>
+
+<form action="{% url 'index' %}" method="get">
+  <input style="width: 100px; background-color: #ebe65b;" type="submit" class="submitBtn" value="Home">
+</form>
+
+
+
+{% endblock %}

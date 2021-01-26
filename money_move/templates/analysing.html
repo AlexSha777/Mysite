@@ -1,0 +1,250 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h5>MONEY MOVE Analysing</h5>
+<h4>Анализ движения денежных средств</h4>
+
+<form action="" method="post">
+  {% csrf_token %}
+
+    {%if form.main.errors %}
+      <p> {{form.main.errors}} </p>
+    {% endif %} 
+
+<p>Что анализируем</p>
+<button value="income" type="button" id="but1" style="background:#78db69;" onclick="myFunction(value);">Доходы </button>
+
+  {% if tuple_structured_moneysource %}
+    <br class="income" style="display: none;">
+    {% for tuple in tuple_structured_moneysource %}
+      
+      <button value="{{tuple.0}}" class="income" type="button" id="but2" style="background:##ffe4e1; display: none;" onclick="myFunction_2(value, class_name='income');"> {{tuple.0}} </button>
+      <br class="income" style="display: none;">
+      
+      {% for value in tuple.1 %}
+
+        <button value="{{value}}" type="button" class="{{tuple.0}}" id="but3" style="background:#ffaca3; display: none;" onclick="myFunction_1(value);"> {{value}} </button>
+        <br class="{{tuple.0}}" style="display: none;">
+      {% endfor %}
+      
+    {% endfor %}
+      
+  {% endif %}
+<br class='br_main'>
+
+
+<button value="spendings" type="button" id="but1" style="background:#78db69;" onclick="myFunction(value);">Расходы</button>
+
+  {% if tuple_structured_spendingkind %}
+    <br class="spendings" style="display: none;">
+    {% for tuple in tuple_structured_spendingkind %}
+      
+      <button value="{{tuple.0}}" type="button" class="spendings" id="but2" style="background:##ffe4e1; display: none;" onclick="myFunction_2(value, class_name='spendings');"> {{tuple.0}} </button>
+      <br class="spendings" style="display: none;">
+
+      {% for value in tuple.1 %}
+
+        <button value="{{value}}" type="button" class="{{tuple.0}}" id="but3" style="background:#ffaca3; display: none;" onclick="myFunction_1(value);"> {{value}} </button>
+        <br class="{{tuple.0}}" style="display: none;">
+      {% endfor %}
+      
+    {% endfor %}
+      
+  {% endif %}
+<br class='br_main'>
+
+<button value="cash" type="button" id="but1" style="background:#78db69;" onclick="myFunction(value);">Имеющие средства</button>
+  {% if tuple_structured_cashkind %}
+    <br class="cash" style="display: none;">
+
+    {% for tuple in tuple_structured_cashkind %}
+      
+      <button value="{{tuple.0}}" type="button" class="cash" id="but2" style="background:##ffe4e1; display: none;" onclick="myFunction_2(value, class_name='cash');"> {{tuple.0}} </button>
+      <br class="cash" style="display: none;">
+      
+      {% for value in tuple.1 %}
+
+        <button value="{{value}}" type="button" class="{{tuple.0}}" id="but3" style="background:#ffaca3; display: none;" onclick="myFunction_1(value);"> {{value}} </button>
+        <br class="{{tuple.0}}" style="display: none;">
+      {% endfor %}
+      
+    {% endfor %}
+      
+  {% endif %}
+<br class='br_main'>
+
+<button value="common" type="button" id="but1" style="background:#e4f28a;" onclick="common_function(value);">Операции по порядку</button>
+
+<p>Анализируемый период:</p>
+
+<label for="myDate_1"> c </label><input name="date_begin" type="date" id="myDate_1" value="{{first_operation_income}}">
+<label for="myDate_2"> по </label><input name="date_end" type="date" id="myDate_2" value="{{date_today}}">
+
+{%if form.date_begin.errors %}
+  <p style="color:red;"> {{form.date_begin.errors}} </p>
+{% endif %} 
+  
+{%if form.date_end.errors %}
+  <p style="color:red;"> {{form.date_end.errors}} </p>
+{% endif %} 
+
+
+<p>Доступные периоды для анализа:</p>
+<ul style="list-style-type: none; margin: 0; padding: 0;"> 
+  <li><strong>Доходы:</strong> с {{ first_operation_income }} по {{last_operation_income}}</li>
+    <ul style="list-style-type: none; margin: 0; padding: 0;">
+      <li>Всего {{ num_operations_income }} операций</li>
+  <li><strong>Расходы:</strong> с {{first_operation_spending}} по {{last_operation_spending}}</li>
+    <ul style="list-style-type: none; margin: 0; padding: 0;">
+      <li>Всего {{ num_operations_spendings }} операций</li>
+  <li><strong>Имеющиеся средства:</strong> с {{first_operation_cash}} по {{last_operation_cash}}</li>
+    <ul style="list-style-type: none; margin: 0; padding: 0;">
+      <li>Всего {{ num_operations_cash }} операций</li>
+</ul>
+<div style="display: none;">
+<p><label for="analysing_main">MAIN</label>
+<input name="main" type="text" id="analysing_main" value="" style="display: inline;"></p>
+
+<p><label for="analysing_firstlevel">FirstLEV</label>
+<input name="firstLEV" type="text" id="analysing_firstlevel" value="" style="display: inline;"></p>
+
+<p><label for="analysing_secondlevel">SecondLEV</label>
+<input name="secondLEV" type="text" id="analysing_secondlevel" value="" style="display: inline;"></p>
+
+</div>
+<input style="width: 200px" type="submit" class="submitBtn" value="Анализировать">
+</form>
+
+<script>
+  function myFunction(value){
+    let inner = value;
+    let br_class = "br_to_remove";
+    
+    
+    let br_tohide = document.querySelectorAll("br");
+    for (let br_t_h of br_tohide) {
+      br_t_h.style.display = "none"; 
+      };
+    
+    let br_main = document.querySelectorAll("br.br_main");
+    for (let br_t_d of br_main) {
+      br_t_d.style.display = "inline"; 
+      };
+
+    
+    let first_level = document.getElementById("analysing_firstlevel");
+    first_level.value = "";
+    
+    let second_level = document.getElementById("analysing_secondlevel");
+    second_level.value = "";
+
+    let main_element = document.getElementById("analysing_main");
+    main_element.value = inner;
+    
+    
+    let buttons_to_hide = document.querySelectorAll("#but2");
+    for (let but_1 of buttons_to_hide) {
+      but_1.style.display = "none"; 
+      };
+
+    let buttons_to_hide_2 = document.querySelectorAll("#but3");
+    for (let but_2 of buttons_to_hide_2) {
+      but_2.style.display = "none"; 
+      };
+    
+    let buttons = document.querySelectorAll('.'+value);
+    
+
+    
+
+    for (let but of buttons) {
+      but.style.display = "inline";
+      };
+    
+
+    }
+  
+  function myFunction_1(value){
+    let inner = value;
+    let second_level = document.getElementById("analysing_secondlevel");
+    second_level.value = inner;
+    }
+
+  function myFunction_2(value, class_name){
+        
+    let first_level = document.getElementById("analysing_firstlevel");
+    first_level.value = value;
+
+    let second_level = document.getElementById("analysing_secondlevel");
+    second_level.value = "";
+
+    let br_tohide = document.querySelectorAll("br");
+    for (let br_t_h of br_tohide) {
+      br_t_h.style.display = "none"; 
+      };
+
+    let br_main = document.querySelectorAll("br.br_main");
+    for (let br_t_d of br_main) {
+      br_t_d.style.display = "inline"; 
+      };
+    
+    let br_to_display = document.querySelectorAll('br.'+class_name);
+    for (let br_to_dis of br_to_display) {
+      br_to_dis.style.display = "inline";
+      };
+
+
+    let but3_tohide = document.querySelectorAll("#but3");
+    for (let but_2 of but3_tohide) {
+      but_2.style.display = "none"; 
+      };
+        
+    let buttons = document.getElementsByClassName(value);
+    
+    let br_buttons = document.querySelectorAll('br.'+value);
+    
+    for (let but of buttons) {
+      but.style.display = "inline"; 
+      };
+    for (let br of br_buttons) {
+      br.style.display = "inline";
+      };
+    }
+
+  function common_function(value){
+    let main_element = document.getElementById("analysing_main");
+    main_element.value = value;
+
+    let first_level = document.getElementById("analysing_firstlevel");
+    first_level.value = "";
+
+    let second_level = document.getElementById("analysing_secondlevel");
+    second_level.value = "";
+
+    let buttons_to_hide = document.querySelectorAll("#but2");
+    for (let but_1 of buttons_to_hide) {
+      but_1.style.display = "none"; 
+      };
+
+    let buttons_to_hide_2 = document.querySelectorAll("#but3");
+    for (let but_2 of buttons_to_hide_2) {
+      but_2.style.display = "none"; 
+      };
+
+    let br_tohide = document.querySelectorAll("br");
+    for (let br_t_h of br_tohide) {
+      br_t_h.style.display = "none"; 
+      };
+
+    let br_main = document.querySelectorAll("br.br_main");
+    for (let br_t_d of br_main) {
+      br_t_d.style.display = "inline"; 
+      };
+
+  }
+
+    
+
+</script>
+
+{% endblock %}

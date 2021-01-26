@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  {% block title %}<title></title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+  <!-- Добавление дополнительного статического CSS файла -->
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'money_move/styles.css' %}">
+  <script src="{% static 'money_move/app.js' %}"></script>
+</head>
+
+<body>
+
+  
+
+  <div>
+    <div class="navbar" style="height: auto; width: auto">
+      {% block sidebar %}
+      
+      <div id="navbarleft">
+        <ul class="sidebar-nav">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="{% url 'analysing' %}">Анализ движения средств</a></li>
+          <li><a href="/admin">Администрирование</a></li>
+
+          {% if user.is_authenticated %}
+            <li id="login_user" style="color:Orange;">User: {{ user.get_username }}</li>
+            <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+          {% else %}
+            <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <div id="navbarright">
+        <h4>Сегодня</h4>
+        <h3> {{ date_today }} </h3>
+      </div>
+
+     {% endblock %}
+    </div>
+      <div class="mymain">
+      {% block content %}{% endblock %}
+      </div>
+
+
+  </div>
+  
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h5>MONEY MOVE Analysing</h5>
+<h4>Анализ движения денежных средств</h4>
+
+<p>Результаты анализа</p>
+<p>Проанализоровано:</p> 
+<button type="button" id="but1" style="background:#78db69;"> {{main}} </button>
+<p>Период: с {{date_begin}} по {{date_end}} -- {{delta}} дней</p> 
+
+<form action="{% url 'sending_excel' %}" method="get">
+  <input type="text" name="date_begin" value="{{date_begin}}"><br>
+  <input type="text" name="date_end" value="{{date_end}}"><br>
+  <label for="email">Введите e-mail:</label><input type="e-mail" name="email" value="oxygenius@mail.ru">
+  <button type="submit" id="but1" style="background:#f2f2f2;"> Отправить файл (excel) на e-mail </button>
+</form>
+{% if result %}
+        <table>
+          <tr>
+            <th>Дата</th>
+            <th>Доход</th>
+            <th>Расход</th>
+          </tr>
+        
+        {% for key, value in result.items  %}
+           
+          <tr>
+            <td> {{key}} </td>
+            <td style="background-color: #d7faca; font-size: 10px;"> 
+              {% for income in value.income %}
+                {{income.0}}  {{income.1}}<br> 
+              {% endfor %}
+            </td>  
+            <td style="background-color:#facaca; font-size: 10px;"> 
+              {% for spending in value.spending %}
+                {{spending.0}}  {{spending.1}}<br>
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+        </table> 
+  {% else %}
+          <p>Нет записей</p>
+{% endif %}
+
+<form action="{% url 'analysing' %}" method="get">
+  <input style="width: 100px; background-color: #ebe65b;" type="submit" class="submitBtn" value="Back">
+</form>
+
+<form action="{% url 'index' %}" method="get">
+  <input style="width: 100px; background-color: #ebe65b;" type="submit" class="submitBtn" value="Home">
+</form>
+
+
+<script>
+  function print(value){
+    console.log(value);
+  }
+</script>                           
+
+{% endblock %}

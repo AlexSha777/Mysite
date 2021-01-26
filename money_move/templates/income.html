@@ -1,0 +1,120 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>MONEY MOVE</h1>
+
+<div >
+
+  <h1><strong>INCOME</strong></h1>
+  <p>Введение доходной операции</p>
+  
+    
+  <form id="income" action="" method="post">
+    {% csrf_token %}
+    
+      {% if money_source_objects %}
+        
+          <p>Список введенных источников дохода</p>
+
+          {% for source in money_source_objects %}
+            <button value="{{source.id}}" type="button" id="but2" onclick="myFunction(value);"> {{source}} </button>
+          {% endfor %}
+            
+      {% else %}
+          <p>Нет источников дохода</p>
+      {% endif %}
+        
+
+    <table class="table_income">
+      
+      <tr>
+        <td class="label_my"> {{ form.date_field.label }} </td>
+        <td class="enter_area"> {{ form.date_field }} </td>
+      </tr>
+      
+      {%if form.date_field.errors %}
+          <tr>
+            <td> {{form.date_field.errors}} </td>
+          </tr>
+      {% endif %} 
+      
+      <tr>
+        <td class="label_my"> Доход </td>
+        <td class="enter_area" id="source"> {{ form.source }} <br><a id="myref" href="{% url 'add_new_source' %}"> Добавить новый источник</a></td>
+      </tr>
+      
+      {%if form.source.errors %}
+          <tr>
+            <td> {{form.source.errors}} </td>
+          </tr>
+      {% endif %}
+
+
+      <tr>
+        <td class="label_my"> {{ form.ammount.label }} </td>
+        <td class="enter_area"> {{ form.ammount }} {{ form.ammount.help_text }} </td>
+      </tr>
+      
+      
+      {%if form.ammount.errors %}
+          <tr>
+            <td> {{form.ammount.errors}} </td>
+          </tr>
+      {% endif %}
+
+      <tr>
+        <td class="label_my"> Пополняемый вид имеющихся средств </td>
+        <td class="enter_area"> {{form.cash_kind_income}} <br><a id="myref" href="{% url 'add_new_cashkind' %}"> Добавить новый вид имеющихся средств</a> </td>
+      </tr>
+
+      {%if form.cash_kind_income.errors %}
+          <tr>
+            <td> {{form.cash_kind_income.errors}} </td>
+          </tr>
+      {% endif %}
+
+      <tr>
+        <td class="label_my"> {{ form.comment.label }} </td>
+        <td class="enter_area"> {{ form.comment }} </td>
+      </tr>
+
+      {%if form.comment.errors %}
+          <tr>
+            <td> {{form.comment.errors}} </td>
+          </tr>
+      {% endif %}
+
+
+
+    
+    </table>
+    <input type="submit" class= "submitBtn" value="Submit">
+  </form>
+
+<script>
+  function myFunction(value){
+    var inner = value;
+    console.log(value);
+    var to_add = document.createTextNode(inner);
+
+    var source_element = document.getElementById("id_source");
+    source_element.value = inner
+    }
+  
+</script>
+
+</div>
+
+<div class="common">
+  <h4>Общая информация о <br/><strong>доходных операциях</strong></h4>
+
+    
+      <li><strong>Количество операций доходных:</strong> {{ num_operations }}</li>
+        <ul>
+    	  <li><strong>из них за день:</strong> {{ num_operations_today }} </li>
+        </ul>
+  
+    
+    
+</div>
+{% endblock %}
